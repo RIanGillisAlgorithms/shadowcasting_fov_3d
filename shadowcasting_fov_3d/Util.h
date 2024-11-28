@@ -3,7 +3,7 @@
 #define util_h
 
 #include <vector>
-#include <list>
+#include <queue>
 #include "IanFrustum.h"
 
 
@@ -18,9 +18,9 @@ namespace util
 		frustum_sectioning_lookup_2d();
 		~frustum_sectioning_lookup_2d();
 
-		std::list<dims::IanFrustum> divideFrustumY(dims::IanFrustum startFrustum, std::list<int>& blockedIndex);
-		std::list<dims::IanFrustum> divideFrustumX(dims::IanFrustum startFrustum, std::list<int>& blockedIndex);
-		std::list<dims::IanFrustum> divideFrustumZ(dims::IanFrustum startFrustum, std::list<int>& blockedIndex);
+		std::queue<dims::IanFrustum> divideFrustumY(dims::IanFrustum startFrustum, std::queue<int>& blockedIndex);
+		std::queue<dims::IanFrustum> divideFrustumX(dims::IanFrustum startFrustum, std::queue<int>& blockedIndex);
+		std::queue<dims::IanFrustum> divideFrustumZ(dims::IanFrustum startFrustum, std::queue<int>& blockedIndex);
 	};
 }
 

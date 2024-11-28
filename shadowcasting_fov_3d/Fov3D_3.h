@@ -4,7 +4,7 @@
 
 #include "Map3D.h"
 #include "Point3D.h"
-#include <list>
+#include <queue>
 #include "IanFrustum.h"
 
 
@@ -30,7 +30,7 @@ namespace world
 
 		world::Map3D* map;
 	private:
-		std::list<int> blockedTileIndex;
+		std::queue<int> blockedTileIndex;
 
 	};
 }

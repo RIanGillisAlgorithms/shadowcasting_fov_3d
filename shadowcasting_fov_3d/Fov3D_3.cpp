@@ -82,21 +82,23 @@ namespace world
 				//break up into smaller rectangles
 				auto newFrustums = util::fLookup.divideFrustumY(startFrustum, blockedTileIndex);
 				//The frustum has either stayed the same (Expanded at the rate of the 4 slopes) or been broken up into smaller frustums (or was blocked completely)
-				for (auto frustum : newFrustums)
+				//for (auto frustum : newFrustums)
+				while(!newFrustums.empty())
 				{	   
 					//Should any of the slopes be recalculated? Or should they inherit from startFrustum?
-					bool up = frustum.topRightLoc.z != startFrustum.topRightLoc.z;
-					bool down = frustum.bottomLeftLoc.z != startFrustum.bottomLeftLoc.z;
-					bool left = frustum.bottomLeftLoc.x != startFrustum.bottomLeftLoc.x;
-					bool right = frustum.topRightLoc.x != startFrustum.topRightLoc.x;
+					bool up = newFrustums.front().topRightLoc.z != startFrustum.topRightLoc.z;
+					bool down = newFrustums.front().bottomLeftLoc.z != startFrustum.bottomLeftLoc.z;
+					bool left = newFrustums.front().bottomLeftLoc.x != startFrustum.bottomLeftLoc.x;
+					bool right = newFrustums.front().topRightLoc.x != startFrustum.topRightLoc.x;
 					//Recalculate any slopes that shouldn't be inherited
-					frustum.determineSlopesY(up
+					newFrustums.front().determineSlopesY(up
 						, down
 						, left
 						, right);
 
 					//expand the new frustum now that we know the 4 slopes
-					incrementY(frustum, StepsLeft - 1, CurTurn, PositiveDirection);
+					incrementY(newFrustums.front(), StepsLeft - 1, CurTurn, PositiveDirection);
+					newFrustums.pop();
 				}
 			}
 			else
@@ -119,18 +121,20 @@ namespace world
 			{
 				//break up into smaller rectangles
 				auto newFrustums = util::fLookup.divideFrustumX(startFrustum, blockedTileIndex);
-				for (auto frustum : newFrustums)
+				//for (auto frustum : newFrustums)
+				while (!newFrustums.empty())
 				{
-					bool up = frustum.topRightLoc.z != startFrustum.topRightLoc.z;
-					bool down = frustum.bottomLeftLoc.z != startFrustum.bottomLeftLoc.z;
-					bool left = frustum.bottomLeftLoc.y != startFrustum.bottomLeftLoc.y;
-					bool right = frustum.topRightLoc.y != startFrustum.topRightLoc.y;
-					frustum.determineSlopesX(up
+					bool up = newFrustums.front().topRightLoc.z != startFrustum.topRightLoc.z;
+					bool down = newFrustums.front().bottomLeftLoc.z != startFrustum.bottomLeftLoc.z;
+					bool left = newFrustums.front().bottomLeftLoc.y != startFrustum.bottomLeftLoc.y;
+					bool right = newFrustums.front().topRightLoc.y != startFrustum.topRightLoc.y;
+					(newFrustums.front()).determineSlopesX(up
 						, down
 						, left
 						, right);
 
-					incrementX(frustum, StepsLeft - 1, CurTurn, PositiveDirection);
+					incrementX(newFrustums.front(), StepsLeft - 1, CurTurn, PositiveDirection);
+					newFrustums.pop();
 				}
 			}
 			else
@@ -151,18 +155,20 @@ namespace world
 			{
 				//break up into smaller rectangles
 				auto newFrustums = util::fLookup.divideFrustumZ(startFrustum, blockedTileIndex);
-				for (auto frustum : newFrustums)
+				//for (auto frustum : newFrustums)
+				while (!newFrustums.empty())
 				{
-					bool up = frustum.topRightLoc.y != startFrustum.topRightLoc.y;
-					bool down = frustum.bottomLeftLoc.y != startFrustum.bottomLeftLoc.y;
-					bool left = frustum.bottomLeftLoc.x != startFrustum.bottomLeftLoc.x;
-					bool right = frustum.topRightLoc.x != startFrustum.topRightLoc.x;
-					frustum.determineSlopesZ(up
+					bool up = newFrustums.front().topRightLoc.y != startFrustum.topRightLoc.y;
+					bool down = newFrustums.front().bottomLeftLoc.y != startFrustum.bottomLeftLoc.y;
+					bool left = newFrustums.front().bottomLeftLoc.x != startFrustum.bottomLeftLoc.x;
+					bool right = newFrustums.front().topRightLoc.x != startFrustum.topRightLoc.x;
+					newFrustums.front().determineSlopesZ(up
 						, down
 						, left
 						, right);
 
-					incrementZ(frustum, StepsLeft - 1, CurTurn, PositiveDirection);
+					incrementZ(newFrustums.front(), StepsLeft - 1, CurTurn, PositiveDirection);
+					newFrustums.pop();
 				}
 			}
 			else
@@ -180,8 +186,6 @@ namespace world
 	/// <returns></returns>
 	void Fov3D_3::determineBlockedTilesOfExpandedFrustum(dims::IanFrustum& startFrustum, int CurTurn)
 	{
-		blockedTileIndex.clear();
-
 		int idx = 0;
 		//now check the new tile, looping from bottomleft to topright
 		for (int piz = startFrustum.bottomLeftLoc.z; piz <= startFrustum.topRightLoc.z; piz++)
@@ -202,7 +206,7 @@ namespace world
 
 					if (map->isOpaque(pix, piy, piz))
 					{
-						blockedTileIndex.push_back(idx);
+						blockedTileIndex.push(idx);
 					}
 				}
 			}

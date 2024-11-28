@@ -20,9 +20,9 @@ namespace util
 	/// <param name="startFrustum"></param>
 	/// <param name="blockedIndex"></param>
 	/// <returns></returns>
-	std::list<dims::IanFrustum> frustum_sectioning_lookup_2d::divideFrustumY(dims::IanFrustum startFrustum, std::list<int>& blockedIndex)
+	std::queue<dims::IanFrustum> frustum_sectioning_lookup_2d::divideFrustumY(dims::IanFrustum startFrustum, std::queue<int>& blockedIndex)
 	{
-		std::list<dims::IanFrustum> toReturn;
+		std::queue<dims::IanFrustum> toReturn;
 		dims::IanFrustum firstFrustum = dims::IanFrustum(startFrustum.origin, startFrustum.bottomLeftLoc, startFrustum.topRightLoc);
 		firstFrustum.up = startFrustum.up;
 		firstFrustum.down = startFrustum.down;
@@ -43,12 +43,12 @@ namespace util
 					if (blockedIndex.size() > 0 && blockedIndex.front() == curIdx)
 					{
 						encounterdBlock = true;
-						blockedIndex.pop_front();
+						blockedIndex.pop();
 
 						//if we have started a frustum, then we need to close it
 						if (frustumStarted)
 						{							
-							toReturn.push_back(firstFrustum);
+							toReturn.push(firstFrustum);
 							frustumStarted = false;
 						}
 					}
@@ -72,7 +72,7 @@ namespace util
 
 				if (frustumStarted)
 				{
-					toReturn.push_back(firstFrustum);
+					toReturn.push(firstFrustum);
 					frustumStarted = false;
 				}
 				curLoc.x = startFrustum.bottomLeftLoc.x;
@@ -82,9 +82,9 @@ namespace util
 		return toReturn;
 	}
 
-	std::list<dims::IanFrustum> frustum_sectioning_lookup_2d::divideFrustumX(dims::IanFrustum startFrustum, std::list<int>& blockedIndex)
+	std::queue<dims::IanFrustum> frustum_sectioning_lookup_2d::divideFrustumX(dims::IanFrustum startFrustum, std::queue<int>& blockedIndex)
 	{
-		std::list<dims::IanFrustum> toReturn;
+		std::queue<dims::IanFrustum> toReturn;
 		dims::IanFrustum firstFrustum = dims::IanFrustum(startFrustum.origin, startFrustum.bottomLeftLoc, startFrustum.topRightLoc);
 		firstFrustum.up = startFrustum.up;
 		firstFrustum.down = startFrustum.down;
@@ -105,12 +105,12 @@ namespace util
 					if (blockedIndex.size() > 0 && blockedIndex.front() == curIdx)
 					{
 						encounterdBlock = true;
-						blockedIndex.pop_front();
+						blockedIndex.pop();
 
 						//if we have started a frustum, then we need to close it
 						if (frustumStarted)
 						{						
-							toReturn.push_back(firstFrustum);
+							toReturn.push(firstFrustum);
 							frustumStarted = false;
 						}
 					}
@@ -134,7 +134,7 @@ namespace util
 
 				if (frustumStarted)
 				{
-					toReturn.push_back(firstFrustum);
+					toReturn.push(firstFrustum);
 					frustumStarted = false;
 				}
 				curLoc.y = startFrustum.bottomLeftLoc.y;
@@ -144,9 +144,9 @@ namespace util
 		return toReturn;
 	}
 
-	std::list<dims::IanFrustum> frustum_sectioning_lookup_2d::divideFrustumZ(dims::IanFrustum startFrustum, std::list<int>& blockedIndex)
+	std::queue<dims::IanFrustum> frustum_sectioning_lookup_2d::divideFrustumZ(dims::IanFrustum startFrustum, std::queue<int>& blockedIndex)
 	{
-		std::list<dims::IanFrustum> toReturn;
+		std::queue<dims::IanFrustum> toReturn;
 		dims::IanFrustum firstFrustum = dims::IanFrustum(startFrustum.origin, startFrustum.bottomLeftLoc, startFrustum.topRightLoc);
 		firstFrustum.up = startFrustum.up;
 		firstFrustum.down = startFrustum.down;
@@ -167,12 +167,12 @@ namespace util
 					if (blockedIndex.size() > 0 && blockedIndex.front() == curIdx)
 					{
 						encounterdBlock = true;
-						blockedIndex.pop_front();
+						blockedIndex.pop();
 
 						//if we have started a frustum, then we need to close it
 						if (frustumStarted)
 						{							
-							toReturn.push_back(firstFrustum);
+							toReturn.push(firstFrustum);
 							frustumStarted = false;
 						}
 					}
@@ -196,7 +196,7 @@ namespace util
 
 				if (frustumStarted)
 				{
-					toReturn.push_back(firstFrustum);
+					toReturn.push(firstFrustum);
 					frustumStarted = false;
 				}
 				curLoc.x = startFrustum.bottomLeftLoc.x;
