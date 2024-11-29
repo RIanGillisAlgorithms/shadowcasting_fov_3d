@@ -17,3 +17,4 @@ A simple 3d shadow-casting fov algorithm
 * The tileCubes that lie on the view frustum diagonals are calculated 3 times, once each for x-y-z, and two times for the adjacent view frustum edges, once each for x-y, x-z, y-z 
 * An int queue is used to record each blocked tileCube
 * The rectangular view-frustum merge can be optimized
+* Not symmetric
